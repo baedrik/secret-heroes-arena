@@ -1,0 +1,260 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandleAnswer",
+  "description": "Responses from handle functions",
+  "anyOf": [
+    {
+      "description": "response from setting or creating a viewing key",
+      "type": "object",
+      "required": [
+        "viewing_key"
+      ],
+      "properties": {
+        "viewing_key": {
+          "type": "object",
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "key": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from withdrawing a hero from the bullpen",
+      "type": "object",
+      "required": [
+        "chicken_out"
+      ],
+      "properties": {
+        "chicken_out": {
+          "type": "object",
+          "required": [
+            "message"
+          ],
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from changing the admin address",
+      "type": "object",
+      "required": [
+        "change_admin"
+      ],
+      "properties": {
+        "change_admin": {
+          "type": "object",
+          "required": [
+            "new_admin"
+          ],
+          "properties": {
+            "new_admin": {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from starting/stopping battles",
+      "type": "object",
+      "required": [
+        "set_battle_status"
+      ],
+      "properties": {
+        "set_battle_status": {
+          "type": "object",
+          "required": [
+            "battles_have_halted"
+          ],
+          "properties": {
+            "battles_have_halted": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from adding a new card contract",
+      "type": "object",
+      "required": [
+        "add_card_contract"
+      ],
+      "properties": {
+        "add_card_contract": {
+          "type": "object",
+          "required": [
+            "card_contract"
+          ],
+          "properties": {
+            "card_contract": {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from adding auto-send addresses",
+      "type": "object",
+      "required": [
+        "add_bots"
+      ],
+      "properties": {
+        "add_bots": {
+          "type": "object",
+          "required": [
+            "added_bots"
+          ],
+          "properties": {
+            "added_bots": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from removing auto-send addresses",
+      "type": "object",
+      "required": [
+        "remove_bots"
+      ],
+      "properties": {
+        "remove_bots": {
+          "type": "object",
+          "required": [
+            "removed_bots"
+          ],
+          "properties": {
+            "removed_bots": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from resetting the tournament leaderboard",
+      "type": "object",
+      "required": [
+        "reset_leaderboard"
+      ],
+      "properties": {
+        "reset_leaderboard": {
+          "type": "object",
+          "required": [
+            "timestamp"
+          ],
+          "properties": {
+            "timestamp": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from setting an old arena contract allowed to export player stats",
+      "type": "object",
+      "required": [
+        "set_import_from_address"
+      ],
+      "properties": {
+        "set_import_from_address": {
+          "type": "object",
+          "required": [
+            "old_arena"
+          ],
+          "properties": {
+            "old_arena": {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from importing player stats",
+      "type": "object",
+      "required": [
+        "import"
+      ],
+      "properties": {
+        "import": {
+          "type": "object",
+          "required": [
+            "successful"
+          ],
+          "properties": {
+            "successful": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from exporting player stats",
+      "type": "object",
+      "required": [
+        "export"
+      ],
+      "properties": {
+        "export": {
+          "type": "object",
+          "required": [
+            "completed"
+          ],
+          "properties": {
+            "completed": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from setting a new arena contract to export to",
+      "type": "object",
+      "required": [
+        "set_export_to_contract"
+      ],
+      "properties": {
+        "set_export_to_contract": {
+          "type": "object",
+          "required": [
+            "new_arena"
+          ],
+          "properties": {
+            "new_arena": {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "HumanAddr": {
+      "type": "string"
+    }
+  }
+}

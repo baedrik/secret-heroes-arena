@@ -1,0 +1,434 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandleMsg",
+  "description": "Handle messages",
+  "anyOf": [
+    {
+      "description": "create a viewing key",
+      "type": "object",
+      "required": [
+        "create_viewing_key"
+      ],
+      "properties": {
+        "create_viewing_key": {
+          "type": "object",
+          "required": [
+            "entropy"
+          ],
+          "properties": {
+            "entropy": {
+              "description": "entropy String used in random key generation",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "set viewing key",
+      "type": "object",
+      "required": [
+        "set_viewing_key"
+      ],
+      "properties": {
+        "set_viewing_key": {
+          "type": "object",
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "key": {
+              "description": "desired viewing key",
+              "type": "string"
+            },
+            "padding": {
+              "description": "optional message length padding",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "NFT receiver interface",
+      "type": "object",
+      "required": [
+        "batch_receive_nft"
+      ],
+      "properties": {
+        "batch_receive_nft": {
+          "type": "object",
+          "required": [
+            "from",
+            "sender",
+            "token_ids"
+          ],
+          "properties": {
+            "from": {
+              "description": "previous owner of the NFTs",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "msg": {
+              "description": "msg specified when sending",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Binary"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sender": {
+              "description": "address that sent the NFTs",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "token_ids": {
+              "description": "list of NFTs sent from the previous owner",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "withdraw hero from the arena waiting room (bullpen)",
+      "type": "object",
+      "required": [
+        "chicken_out"
+      ],
+      "properties": {
+        "chicken_out": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "change address with administrative power",
+      "type": "object",
+      "required": [
+        "change_admin"
+      ],
+      "properties": {
+        "change_admin": {
+          "type": "object",
+          "required": [
+            "address"
+          ],
+          "properties": {
+            "address": {
+              "description": "address with admin authority",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "halt/start battles",
+      "type": "object",
+      "required": [
+        "set_battle_status"
+      ],
+      "properties": {
+        "set_battle_status": {
+          "type": "object",
+          "required": [
+            "stop"
+          ],
+          "properties": {
+            "stop": {
+              "description": "true if battles should be halted",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "add a compatible card contract",
+      "type": "object",
+      "required": [
+        "add_card_contract"
+      ],
+      "properties": {
+        "add_card_contract": {
+          "type": "object",
+          "required": [
+            "card_contract"
+          ],
+          "properties": {
+            "card_contract": {
+              "description": "new card ContractInfo",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContractInfo"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "set export_to contract info",
+      "type": "object",
+      "required": [
+        "set_export_to_contract"
+      ],
+      "properties": {
+        "set_export_to_contract": {
+          "type": "object",
+          "required": [
+            "new_arena"
+          ],
+          "properties": {
+            "new_arena": {
+              "description": "new arena ContractInfo",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContractInfo"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "set the address of an old arena contract that is allowed to export player stats",
+      "type": "object",
+      "required": [
+        "set_import_from_address"
+      ],
+      "properties": {
+        "set_import_from_address": {
+          "type": "object",
+          "required": [
+            "old_arena"
+          ],
+          "properties": {
+            "old_arena": {
+              "description": "old arena contract address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "import player stats and battle count.  This can only be called by the authorized old arena",
+      "type": "object",
+      "required": [
+        "import"
+      ],
+      "properties": {
+        "import": {
+          "type": "object",
+          "required": [
+            "stats"
+          ],
+          "properties": {
+            "battle_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "stats": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerStats"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "export player stats to a new arena.  This will continue with the next block of an on-going export process.",
+      "type": "object",
+      "required": [
+        "export"
+      ],
+      "properties": {
+        "export": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "add bot addresses",
+      "type": "object",
+      "required": [
+        "add_bots"
+      ],
+      "properties": {
+        "add_bots": {
+          "type": "object",
+          "required": [
+            "bots"
+          ],
+          "properties": {
+            "bots": {
+              "description": "list of addresses that auto-send fighters to shorten user wait",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "remove bot addresses",
+      "type": "object",
+      "required": [
+        "remove_bots"
+      ],
+      "properties": {
+        "remove_bots": {
+          "type": "object",
+          "required": [
+            "bots"
+          ],
+          "properties": {
+            "bots": {
+              "description": "list of addresses that no longer auto-send fighters",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "reset the tournament leaderboard",
+      "type": "object",
+      "required": [
+        "reset_leaderboard"
+      ],
+      "properties": {
+        "reset_leaderboard": {
+          "type": "object"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    },
+    "ContractInfo": {
+      "description": "code hash and address of a contract",
+      "type": "object",
+      "required": [
+        "address",
+        "code_hash"
+      ],
+      "properties": {
+        "address": {
+          "description": "contract's address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "code_hash": {
+          "description": "contract's code hash string",
+          "type": "string"
+        }
+      }
+    },
+    "HumanAddr": {
+      "type": "string"
+    },
+    "PlayerStats": {
+      "description": "player stats and point leaderboard entry",
+      "type": "object",
+      "required": [
+        "address",
+        "battles",
+        "losses",
+        "score",
+        "third_in_two_way_ties",
+        "ties",
+        "wins"
+      ],
+      "properties": {
+        "address": {
+          "description": "player's address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "battles": {
+          "description": "number of battles",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "losses": {
+          "description": "number of losses",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "score": {
+          "description": "player's score",
+          "type": "integer",
+          "format": "int32"
+        },
+        "third_in_two_way_ties": {
+          "description": "number of times took 3rd place in a 2-way tie",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "ties": {
+          "description": "number of ties",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "wins": {
+          "description": "number of wins",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      }
+    }
+  }
+}

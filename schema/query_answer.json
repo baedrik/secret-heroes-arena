@@ -1,0 +1,721 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryAnswer",
+  "description": "responses from queries",
+  "anyOf": [
+    {
+      "type": "object",
+      "required": [
+        "bullpen"
+      ],
+      "properties": {
+        "bullpen": {
+          "type": "object",
+          "required": [
+            "heroes_waiting"
+          ],
+          "properties": {
+            "heroes_waiting": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            "your_hero": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WaitingHero"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "battle_history"
+      ],
+      "properties": {
+        "battle_history": {
+          "type": "object",
+          "required": [
+            "history"
+          ],
+          "properties": {
+            "history": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Battle"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "arena config",
+      "type": "object",
+      "required": [
+        "config"
+      ],
+      "properties": {
+        "config": {
+          "type": "object",
+          "required": [
+            "battles_have_halted",
+            "card_versions"
+          ],
+          "properties": {
+            "battles_have_halted": {
+              "type": "boolean"
+            },
+            "card_versions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ContractInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "list of auto-send addresses",
+      "type": "object",
+      "required": [
+        "bots"
+      ],
+      "properties": {
+        "bots": {
+          "type": "object",
+          "required": [
+            "bots"
+          ],
+          "properties": {
+            "bots": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "point leaderboards",
+      "type": "object",
+      "required": [
+        "leaderboards"
+      ],
+      "properties": {
+        "leaderboards": {
+          "type": "object",
+          "required": [
+            "all_time",
+            "tournament",
+            "tournament_started"
+          ],
+          "properties": {
+            "all_time": {
+              "description": "all time leaderboard",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerStats"
+              }
+            },
+            "tournament": {
+              "description": "tournament leaderboard",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerStats"
+              }
+            },
+            "tournament_started": {
+              "description": "seconds after 01/01/1970 in which the tournament started",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "player's stats",
+      "type": "object",
+      "required": [
+        "player_stats"
+      ],
+      "properties": {
+        "player_stats": {
+          "type": "object",
+          "required": [
+            "all_time",
+            "tournament"
+          ],
+          "properties": {
+            "all_time": {
+              "description": "all time stats",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PlayerStats"
+                }
+              ]
+            },
+            "tournament": {
+              "description": "tournament stats",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PlayerStats"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "display tournament info",
+      "type": "object",
+      "required": [
+        "tournament"
+      ],
+      "properties": {
+        "tournament": {
+          "type": "object",
+          "required": [
+            "leaderboard",
+            "tournament_started"
+          ],
+          "properties": {
+            "leaderboard": {
+              "description": "the tournament leaderboard",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerStats"
+              }
+            },
+            "tournament_started": {
+              "description": "seconds after 01/01/1970 in which the tournament started",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "game usage metrics",
+      "type": "object",
+      "required": [
+        "usage"
+      ],
+      "properties": {
+        "usage": {
+          "type": "object",
+          "required": [
+            "arena_battle_count",
+            "player_count",
+            "previous_arena_battles"
+          ],
+          "properties": {
+            "arena_battle_count": {
+              "description": "number of battles that occurred in this arena",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "player_count": {
+              "description": "number of players",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "previous_arena_battles": {
+              "description": "number of battles in previous arenas",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "status of player stats export",
+      "type": "object",
+      "required": [
+        "export_status"
+      ],
+      "properties": {
+        "export_status": {
+          "type": "object",
+          "properties": {
+            "last_block": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "next_block": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "all players' all-time stats",
+      "type": "object",
+      "required": [
+        "dump_player_stats"
+      ],
+      "properties": {
+        "dump_player_stats": {
+          "type": "object",
+          "required": [
+            "stats"
+          ],
+          "properties": {
+            "stats": {
+              "description": "list of players' stats and indexes",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlayerDump"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "all battle histories for this arena",
+      "type": "object",
+      "required": [
+        "dump_battle_history"
+      ],
+      "properties": {
+        "dump_battle_history": {
+          "type": "object",
+          "required": [
+            "history"
+          ],
+          "properties": {
+            "history": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BattleDump"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "Battle": {
+      "description": "battle info",
+      "type": "object",
+      "required": [
+        "battle_number",
+        "i_won",
+        "my_hero",
+        "skill_used",
+        "timestamp",
+        "winning_skill_value"
+      ],
+      "properties": {
+        "battle_number": {
+          "description": "battle id number",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "i_won": {
+          "description": "true if the querier's hero won the battle",
+          "type": "boolean"
+        },
+        "my_hero": {
+          "description": "querier's hero in the battle",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Hero"
+            }
+          ]
+        },
+        "skill_used": {
+          "description": "skill used to determine battle results",
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "timestamp": {
+          "description": "number of seconds since epoch time 01/01/1970 in which the battle took place",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "winner": {
+          "description": "winning hero's name, if any",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "winning_skill_value": {
+          "description": "the skill value that won the battle",
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      }
+    },
+    "BattleDump": {
+      "description": "battle info with index",
+      "type": "object",
+      "required": [
+        "battle_number",
+        "heroes",
+        "skill_used",
+        "timestamp",
+        "winning_skill_value"
+      ],
+      "properties": {
+        "battle_number": {
+          "description": "battle id number",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "heroes": {
+          "description": "heroes that fought",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HeroDump"
+          }
+        },
+        "skill_used": {
+          "description": "skill used to determine the winner",
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "timestamp": {
+          "description": "number of seconds since epoch time 01/01/1970 in which the battle took place",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "winner": {
+          "description": "index of winning hero",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "winning_skill_value": {
+          "description": "winning skill value",
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      }
+    },
+    "ContractInfo": {
+      "description": "code hash and address of a contract",
+      "type": "object",
+      "required": [
+        "address",
+        "code_hash"
+      ],
+      "properties": {
+        "address": {
+          "description": "contract's address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "code_hash": {
+          "description": "contract's code hash string",
+          "type": "string"
+        }
+      }
+    },
+    "Hero": {
+      "description": "hero info",
+      "type": "object",
+      "required": [
+        "name",
+        "post_battle_skills",
+        "pre_battle_skills",
+        "token_info"
+      ],
+      "properties": {
+        "name": {
+          "description": "hero's name",
+          "type": "string"
+        },
+        "post_battle_skills": {
+          "description": "hero's skills after the battle",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "pre_battle_skills": {
+          "description": "hero's skills before the battle",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "token_info": {
+          "description": "token info",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TokenInfo"
+            }
+          ]
+        }
+      }
+    },
+    "HeroDump": {
+      "description": "hero info with owner",
+      "type": "object",
+      "required": [
+        "name",
+        "owner",
+        "post_battle_skills",
+        "pre_battle_skills",
+        "token_info"
+      ],
+      "properties": {
+        "name": {
+          "description": "name of the hero",
+          "type": "string"
+        },
+        "owner": {
+          "description": "hero's owner",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "post_battle_skills": {
+          "description": "hero's skills after the battle",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "pre_battle_skills": {
+          "description": "hero's skills before the battle",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "token_info": {
+          "description": "hero's token info",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TokenInfo"
+            }
+          ]
+        }
+      }
+    },
+    "HumanAddr": {
+      "type": "string"
+    },
+    "PlayerDump": {
+      "description": "player stats coupled with the player index for better pagination",
+      "type": "object",
+      "required": [
+        "index",
+        "stats"
+      ],
+      "properties": {
+        "index": {
+          "description": "index of this player",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "stats": {
+          "description": "player's stats",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PlayerStats"
+            }
+          ]
+        }
+      }
+    },
+    "PlayerStats": {
+      "description": "player stats and point leaderboard entry",
+      "type": "object",
+      "required": [
+        "address",
+        "battles",
+        "losses",
+        "score",
+        "third_in_two_way_ties",
+        "ties",
+        "wins"
+      ],
+      "properties": {
+        "address": {
+          "description": "player's address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "battles": {
+          "description": "number of battles",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "losses": {
+          "description": "number of losses",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "score": {
+          "description": "player's score",
+          "type": "integer",
+          "format": "int32"
+        },
+        "third_in_two_way_ties": {
+          "description": "number of times took 3rd place in a 2-way tie",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "ties": {
+          "description": "number of ties",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "wins": {
+          "description": "number of wins",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      }
+    },
+    "Stats": {
+      "description": "card stats",
+      "type": "object",
+      "required": [
+        "base",
+        "current"
+      ],
+      "properties": {
+        "base": {
+          "description": "the card's skills at time of minting",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "current": {
+          "description": "the card's current skills",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        }
+      }
+    },
+    "TokenInfo": {
+      "description": "token info",
+      "type": "object",
+      "required": [
+        "address",
+        "token_id"
+      ],
+      "properties": {
+        "address": {
+          "description": "address of the token contract that controls the token",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "token_id": {
+          "description": "id of the token",
+          "type": "string"
+        }
+      }
+    },
+    "WaitingHero": {
+      "description": "info of hero waiting to fight",
+      "type": "object",
+      "required": [
+        "name",
+        "stats",
+        "token_info"
+      ],
+      "properties": {
+        "name": {
+          "description": "name of the hero",
+          "type": "string"
+        },
+        "stats": {
+          "description": "hero's stats",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Stats"
+            }
+          ]
+        },
+        "token_info": {
+          "description": "hero's token info",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TokenInfo"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

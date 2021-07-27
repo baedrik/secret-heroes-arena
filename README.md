@@ -1,2 +1,5 @@
 # secret-heroes-arena
 moving the arena to a public repo as an example of importing/exporting data from an earlier contract instance
+
+## Note
+The decision to put player addresses in blocks was made because there was a very large difference in gas consumption between being the first or second hero, and being the third (which triggers the battle, does all the callbacks to update skills, and send the heroes back to their owners).  Because the UI has everyone pay gas to cover the worst case scenario of being third, I decided to only store new player addresses when the arriving hero is either first or second since they are paying for gas that isn't being used anyway.  So all the surplus was enough to use blocks which saves the import/export process a lot of gas instead of needed to have a separate read and write action for every address.  That said, when tournament payouts become automated, that will require multiple additional CosmosMsgs, so I will probably switch from using address blocks to saving them separately, so that I can use the excess gas when being first or second hero to cover the tournament-related msgs.

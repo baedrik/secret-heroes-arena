@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "description": "Query messages",
+  "anyOf": [
+    {
+      "description": "display the number of heroes waiting to battle, and the stats of the querier's hero if applicable",
+      "type": "object",
+      "required": [
+        "bullpen"
+      ],
+      "properties": {
+        "bullpen": {
+          "type": "object",
+          "required": [
+            "address",
+            "viewing_key"
+          ],
+          "properties": {
+            "address": {
+              "description": "querier's address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "viewing_key": {
+              "description": "querier's viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "display the querier's battle history",
+      "type": "object",
+      "required": [
+        "battle_history"
+      ],
+      "properties": {
+        "battle_history": {
+          "type": "object",
+          "required": [
+            "address",
+            "viewing_key"
+          ],
+          "properties": {
+            "address": {
+              "description": "querier's address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "page": {
+              "description": "optional page to display",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "page_size": {
+              "description": "optional number of battles to display",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "viewing_key": {
+              "description": "querier's viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "display the arena config",
+      "type": "object",
+      "required": [
+        "config"
+      ],
+      "properties": {
+        "config": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "display player stats export status",
+      "type": "object",
+      "required": [
+        "export_status"
+      ],
+      "properties": {
+        "export_status": {
+          "type": "object",
+          "required": [
+            "admin",
+            "viewing_key"
+          ],
+          "properties": {
+            "admin": {
+              "description": "admin's address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "viewing_key": {
+              "description": "admin's viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "display game usage metrics",
+      "type": "object",
+      "required": [
+        "usage"
+      ],
+      "properties": {
+        "usage": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "display list of auto-send addresses",
+      "type": "object",
+      "required": [
+        "bots"
+      ],
+      "properties": {
+        "bots": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "display the leaderboards",
+      "type": "object",
+      "required": [
+        "leaderboards"
+      ],
+      "properties": {
+        "leaderboards": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "display tournament info",
+      "type": "object",
+      "required": [
+        "tournament"
+      ],
+      "properties": {
+        "tournament": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "display a player's stats",
+      "type": "object",
+      "required": [
+        "player_stats"
+      ],
+      "properties": {
+        "player_stats": {
+          "type": "object",
+          "required": [
+            "address",
+            "viewing_key"
+          ],
+          "properties": {
+            "address": {
+              "description": "querier's address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "viewing_key": {
+              "description": "querier's viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "admin dump of all players' all-time stats",
+      "type": "object",
+      "required": [
+        "dump_player_stats"
+      ],
+      "properties": {
+        "dump_player_stats": {
+          "type": "object",
+          "required": [
+            "admin",
+            "viewing_key"
+          ],
+          "properties": {
+            "admin": {
+              "description": "admin's address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "limit": {
+              "description": "optional number of players' stats to display",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_from": {
+              "description": "optional index of player to start display.  Use this for pagination",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "viewing_key": {
+              "description": "admin's viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "admin dump history of all battles",
+      "type": "object",
+      "required": [
+        "dump_battle_history"
+      ],
+      "properties": {
+        "dump_battle_history": {
+          "type": "object",
+          "required": [
+            "admin",
+            "viewing_key"
+          ],
+          "properties": {
+            "admin": {
+              "description": "admin's address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "limit": {
+              "description": "optional number of battles to display",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "start_from": {
+              "description": "optional index of battle to start display.  Use this for pagination",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "viewing_key": {
+              "description": "admin's viewing key",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "HumanAddr": {
+      "type": "string"
+    }
+  }
+}
